@@ -55,11 +55,9 @@ class Color
 
     public static function distance(Color $start, Color $end)
     {
-        return sqrt(
-            pow($start->red - $end->red, 2) +
+        return pow($start->red - $end->red, 2) +
             pow($start->green - $end->green, 2) + 
-            pow($start->blue - $end->blue, 2)
-        );
+            pow($start->blue - $end->blue, 2);
     }
 
     public function toArray()
