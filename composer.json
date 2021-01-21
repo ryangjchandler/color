@@ -1,0 +1,22 @@
+{
+    "name": "ryangjchandler/color",
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "require-dev": {
+        "ryangjchandler/puny": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RyanChandler\\Color\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/puny ./tests"
+    }
+}
