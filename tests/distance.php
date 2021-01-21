@@ -9,7 +9,7 @@ test('it can calculate the distance betweeen 2 colors', function () {
     $one = Color::new(0, 0, 220);
     $two = Color::new(255, 0, 220);
 
-    $distance = Color::distance($one, $two);
+    $distance = Color::distanceBetween($one, $two);
 
     ok($distance === 65025, 'correctly calculates distance.');
 });
