@@ -53,6 +53,11 @@ class Color
         return new static($red, $green, $blue);
     }
 
+    public function distanceTo(Color $end)
+    {
+        return static::distanceBetween($this, $end);
+    }
+
     public static function distanceBetween(Color $start, Color $end)
     {
         return pow($start->red - $end->red, 2) +
