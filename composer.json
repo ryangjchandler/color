@@ -1,6 +1,13 @@
 {
     "name": "ryangjchandler/color",
     "description": "A simple Color object for PHP packages and applications.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Chandler",
+            "email": "support@ryangjchandler.co.uk"
+        }
+    ],
     "require": {
         "php": "^7.4|^8.0"
     },
