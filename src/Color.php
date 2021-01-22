@@ -90,10 +90,10 @@ class Color
      *
      * @return Color
      */
-    public static function random(): Color
+    public static function random(bool $alpha = false): Color
     {
         return new static(
-            rand(0, 255), rand(0, 255), rand(0, 255)
+            rand(0, 255), rand(0, 255), rand(0, 255), $alpha ? mt_rand() / mt_getrandmax() : 1.0
         );
     }
 
