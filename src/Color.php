@@ -48,29 +48,29 @@ class Color
         return (new static)->setHex($hex);
     }
 
-    public static function new(int $red = 0, int $green = 0, int $blue = 0)
+    public static function new(int $red = 0, int $green = 0, int $blue = 0): Color
     {
         return new static($red, $green, $blue);
     }
 
-    public function distanceTo(Color $end)
+    public function distanceTo(Color $end): int
     {
         return static::distanceBetween($this, $end);
     }
 
-    public static function distanceBetween(Color $start, Color $end)
+    public static function distanceBetween(Color $start, Color $end): int
     {
         return pow($start->red - $end->red, 2) +
             pow($start->green - $end->green, 2) + 
             pow($start->blue - $end->blue, 2);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [$this->red, $this->green, $this->blue];
     }
 
-    public function toString(bool $hex = false)
+    public function toString(bool $hex = false): string
     {
         if ($hex) {
             return $this->toHex();
