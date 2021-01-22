@@ -120,7 +120,7 @@ class Color
      */
     public static function new(int $red = 0, int $green = 0, int $blue = 0, int $alpha = 1.0): Color
     {
-        return new static($red, $green, $blue);
+        return new static($red, $green, $blue, $alpha);
     }
 
     /**
