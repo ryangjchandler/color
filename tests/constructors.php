@@ -29,3 +29,10 @@ test('it can be created using ::hex()', function () {
     ok($hex instanceof Color, 'instantiated correctly');
     ok($hex->toString() === '(129, 151, 88)', 'hex converted correctly.');
 });
+
+test('it can be created using abbreviated hex values', function () {
+    $hex = Color::hex('#aaa');
+
+    ok($hex instanceof Color, 'instantiated correctly');
+    ok($hex->toString() === '(170, 170, 170)', 'hex converted correctly.');
+});
