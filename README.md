@@ -42,6 +42,10 @@ $color = Color::hex('#ffffff');
 
 This will convert your hex representation into the RGB equivalent.
 
+The `#` is not compulsory. It will only be removed _if_ the string provided starts with it.
+
+> It's worth noting that any alpha values specified on the hex value will be stripped since the string is clamped to a length of 6. This is something that might be supported in a future version.
+
 ### Generating a random color
 
 You can generate a random color using the `Color::random()` method.
