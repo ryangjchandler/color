@@ -27,7 +27,11 @@ class Color
             $hex = substr($hex, 0, 6);
         }
 
-        [$r, $g, $b] = str_split($hex, 2);
+        if (strlen($hex) === 3) {
+            [$r, $g, $b] = array_map(fn ($char) => str_pad($char, 2, $char), str_split($hex));
+        } else {
+            [$r, $g, $b] = str_split($hex, 2);
+        }
 
         $this->red   = hexdec($r);
         $this->green = hexdec($g);
