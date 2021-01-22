@@ -19,5 +19,11 @@
     },
     "scripts": {
         "test": "./vendor/bin/puny ./tests"
-    }
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/ryangjchandler"
+        }
+    ]
 }
