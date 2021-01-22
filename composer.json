@@ -1,5 +1,6 @@
 {
     "name": "ryangjchandler/color",
+    "description": "A simple Color object for PHP packages and applications.",
     "require": {
         "php": "^7.4|^8.0"
     },
