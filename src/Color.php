@@ -43,9 +43,9 @@ class Color
      */
     public function __construct(int $red = 0, int $green = 0, int $blue = 0)
     {
-        $this->red = $this->_limitRGB($red);
-        $this->green = $this->_limitRGB($green);
-        $this->blue = $this->_limitRGB($blue);
+        $this->red = max(0, min(255, $red));
+        $this->green = max(0, min(255, $green));
+        $this->blue = max(0, min(255, $blue));
     }
 
     /**
@@ -187,17 +187,5 @@ class Color
     public function __toString()
     {
         return "({$this->red}, {$this->green}, {$this->blue})";
-    }
-
-    /**
-     * Return inital RGB value or limit to 255.
-     *
-     * @param int $value RGB value to limit.
-     * 
-     * @return int
-     */
-    private function _limitRGB(int $value): int
-    {
-        return $value >= 255 ? 255 : $value;
     }
 }
