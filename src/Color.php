@@ -156,7 +156,7 @@ class Color
     }
 
     /**
-     * Determine whether two colors are identical.
+     * Determine whether this color is identical to another.
      *
      * @param Color $color
      * @return bool
@@ -167,6 +167,18 @@ class Color
             && $this->green === $color->green
             && $this->blue === $color->blue
             && $this->alpha === $color->alpha;
+    }
+
+    /**
+     * Determine whether two colors are identical.
+     *
+     * @param Color $first
+     * @param Color $second
+     * @return bool
+     */
+    public static function bothEqual(Color $first, Color $second): bool
+    {
+        return $first->equals($second);
     }
 
     /**

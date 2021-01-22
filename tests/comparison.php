@@ -14,3 +14,12 @@ test('it can compare rgb to hex', function () {
     ok($rgb->equals($hex), 'hex can be compared to RGB');
     ok(! $hex->equals($differentColor), 'different colors do not match');
 });
+
+test('it can compare two colors', function () {
+    $first = Color::hex('#aaa');
+    $second = Color::hex('#aaa');
+    $differentColor = Color::hex('#bbb');
+
+    ok(Color::bothEqual($first, $second), 'two colors can be compared');
+    ok(! Color::bothEqual($first, $differentColor), 'different colors do not match');
+});
