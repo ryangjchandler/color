@@ -42,18 +42,20 @@ class Color
     public float $alpha;
 
     /**
+    /**
      * Class constructor.
      *
-     * @param int $red   Integer between 0 and 255.
-     * @param int $green Integer between 0 and 255.
-     * @param int $blue  Integer between 0 and 255.
+     * @param int   $red   Integer between 0 and 255.
+     * @param int   $green Integer between 0 and 255.
+     * @param int   $blue  Integer between 0 and 255.
+     * @param float $alpha Float between 0 and 1.0.
      */
     public function __construct(int $red = 0, int $green = 0, int $blue = 0, float $alpha = 1.0)
     {
-        $this->red = $red;
-        $this->green = $green;
-        $this->blue = $blue;
-        $this->alpha = $alpha;
+        $this->red = max(0, min(255, $red));
+        $this->green = max(0, min(255, $green));
+        $this->blue = max(0, min(255, $blue));
+        $this->alpha = max(0, min(1.0, $alpha));
     }
 
     /**
@@ -113,9 +115,10 @@ class Color
     /**
      * Create a new color via RGB value.
      *
-     * @param int $red   Integer between 0 and 255.
-     * @param int $green Integer between 0 and 255.
-     * @param int $blue  Integer between 0 and 255.
+     * @param int   $red   Integer between 0 and 255.
+     * @param int   $green Integer between 0 and 255.
+     * @param int   $blue  Integer between 0 and 255.
+     * @param float $alpha Float between 0 and 1.0.
      * 
      * @return Color
      */
