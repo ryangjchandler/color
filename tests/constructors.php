@@ -17,6 +17,12 @@ test('it can be created', function () {
     ok($static->toString() === '(255, 254, 253)', 'colors are stored correctly statically');
 });
 
+test('it can be created and color limited to 255', function () {
+    $color = new Color(256, 257, 258);
+    
+    ok($color->toString() === '(255, 255, 255)', 'colors are limited to 255');
+});
+
 test('it can be created using ::random()', function () {
     $random = Color::random();
 
