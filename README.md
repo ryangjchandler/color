@@ -128,3 +128,5 @@ $two = Color::new(255, 0, 220);
 
 $one->distanceTo($two); // 65_025
 ```
+
+> It is worth noting that the distance calculations and `Color` objects **do not** support alpha-based colors. This is potentially something that will be added in the future.
