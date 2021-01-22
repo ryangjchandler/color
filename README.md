@@ -85,7 +85,7 @@ Color::new(255, 255, 255)->toString(); // "(255, 255, 255)"
 You can also use the `Color::toString()` method to retrieve the hex representation.
 
 ```php
-Color::new(255, 255, 255)->toString(); // #ffffff
+Color::new(255, 255, 255)->toString(true); // #ffffff
 ```
 
 Or use PHP's typecasting to get a string instead.
