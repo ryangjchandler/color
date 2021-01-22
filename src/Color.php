@@ -35,17 +35,25 @@ class Color
     public int $blue;
 
     /**
+     * Colors alpha value.
+     * 
+     * @var float Float between 0.0 and 1.0.
+     */
+    public float $alpha;
+
+    /**
      * Class constructor.
      *
      * @param int $red   Integer between 0 and 255.
      * @param int $green Integer between 0 and 255.
      * @param int $blue  Integer between 0 and 255.
      */
-    public function __construct(int $red = 0, int $green = 0, int $blue = 0)
+    public function __construct(int $red = 0, int $green = 0, int $blue = 0, float $alpha = 1.0)
     {
         $this->red = $red;
         $this->green = $green;
         $this->blue = $blue;
+        $this->alpha = $alpha;
     }
 
     /**
@@ -83,10 +91,10 @@ class Color
      *
      * @return Color
      */
-    public static function random(): Color
+    public static function random(bool $alpha = false): Color
     {
         return new static(
-            rand(0, 255), rand(0, 255), rand(0, 255)
+            rand(0, 255), rand(0, 255), rand(0, 255), $alpha ? mt_rand() / mt_getrandmax() : 1.0
         );
     }
 
@@ -111,9 +119,9 @@ class Color
      * 
      * @return Color
      */
-    public static function new(int $red = 0, int $green = 0, int $blue = 0): Color
+    public static function new(int $red = 0, int $green = 0, int $blue = 0, float $alpha = 1.0): Color
     {
-        return new static($red, $green, $blue);
+        return new static($red, $green, $blue, $alpha);
     }
 
     /**
@@ -138,7 +146,8 @@ class Color
      */
     public static function distanceBetween(Color $start, Color $end): int
     {
-        return pow($start->red - $end->red, 2) +
+        return pow($start->alpha - $end->alpha, 2) +
+            pow($start->red - $end->red, 2) +
             pow($start->green - $end->green, 2) + 
             pow($start->blue - $end->blue, 2);
     }
@@ -186,6 +195,10 @@ class Color
      */
     public function __toString()
     {
+        if ($this->alpha !== 1.0) {
+            return "({$this->red}, {$this->green}, {$this->blue}, {$this->alpha})";    
+        }
+
         return "({$this->red}, {$this->green}, {$this->blue})";
     }
 }
