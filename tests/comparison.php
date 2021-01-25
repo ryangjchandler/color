@@ -20,6 +20,6 @@ test('it can compare two colors', function () {
     $second = Color::hex('#aaa');
     $differentColor = Color::hex('#bbb');
 
-    ok(Color::bothEqual($first, $second), 'two colors can be compared');
-    ok(! Color::bothEqual($first, $differentColor), 'different colors do not match');
+    ok(Color::bothEqual($first, $second) === true, 'two colors can be compared');
+    ok(Color::bothEqual($first, $differentColor) === false, 'different colors do not match');
 });
