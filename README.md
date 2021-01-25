@@ -134,3 +134,27 @@ $one->distanceTo($two); // 65_025
 ```
 
 > It is worth noting that the distance calculations and `Color` objects **do not** support alpha-based colors. This is potentially something that will be added in the future.
+
+### Comparing colors
+
+You can compare two colors using the `Color::bothEqual()` method.
+
+```php
+$one = Color::rgb('#aaa');
+$two = Color::rgb('#aaa');
+$three = Color::rgb('#ccc');
+
+Color::bothEqual($one, $two); // true
+Color::bothEqual($one, $three); // false
+```
+
+You can also compare one color to another using the `equals` method on one of the colors.
+
+```php
+$one = Color::rgb('#aaa');
+$two = Color::rgb('#aaa');
+$three = Color::rgb('#ccc');
+
+$one->equals($two); // true
+$one->equals($three); // false
+```

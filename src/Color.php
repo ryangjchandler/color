@@ -156,6 +156,32 @@ class Color
     }
 
     /**
+     * Determine whether this color is identical to another.
+     *
+     * @param Color $color
+     * @return bool
+     */
+    public function equals(Color $color): bool
+    {
+        return $this->red === $color->red
+            && $this->green === $color->green
+            && $this->blue === $color->blue
+            && $this->alpha === $color->alpha;
+    }
+
+    /**
+     * Determine whether two colors are identical.
+     *
+     * @param Color $first
+     * @param Color $second
+     * @return bool
+     */
+    public static function bothEqual(Color $first, Color $second): bool
+    {
+        return $first->equals($second);
+    }
+
+    /**
      * Get array representation of color.
      *
      * @return array
@@ -169,7 +195,7 @@ class Color
      * Get string representation of color.
      *
      * @param boolean $hex Get as Hex value (optional).
-     * 
+     *
      * @return string
      */
     public function toString(bool $hex = false): string
@@ -177,7 +203,7 @@ class Color
         if ($hex) {
             return $this->toHex();
         }
-        
+
         return (string) $this;
     }
 
@@ -199,7 +225,7 @@ class Color
     public function __toString()
     {
         if ($this->alpha !== 1.0) {
-            return "({$this->red}, {$this->green}, {$this->blue}, {$this->alpha})";    
+            return "({$this->red}, {$this->green}, {$this->blue}, {$this->alpha})";
         }
 
         return "({$this->red}, {$this->green}, {$this->blue})";
