@@ -214,7 +214,13 @@ class Color
      */
     public function toHex(): string
     {
-        return '#'.dechex($this->red).dechex($this->green).dechex($this->blue);
+        $hex = '#'.dechex($this->red).dechex($this->green).dechex($this->blue);
+
+        if ($this->alpha !== 1.0) {
+            return $hex . dechex(round($this->alpha * 255));
+        }
+
+        return $hex;
     }
 
     /**
