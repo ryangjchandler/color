@@ -235,7 +235,7 @@ class Color
         $ratio = round(max($luma1, $luma2) / min($luma1, $luma2), 2);
 
         if ($ratio < 2.9) {
-            $score = 'fail';
+            $score = 'Fail';
         } elseif ($ratio < 4.5) {
             $score = 'AA Large';
         } elseif ($ratio < 7) {
