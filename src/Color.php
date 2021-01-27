@@ -71,7 +71,13 @@ class Color
             $hex = substr($hex, 1);
         }
 
-        if (strlen($hex) > 6) {
+        if (strlen($hex) === 8) {
+            $alpha = substr($hex, -2);
+
+            if ($alpha) {
+                $this->alpha = round(hexdec($alpha) / 255, 2);
+            }
+
             $hex = substr($hex, 0, 6);
         }
 
@@ -214,7 +220,13 @@ class Color
      */
     public function toHex(): string
     {
-        return '#'.dechex($this->red).dechex($this->green).dechex($this->blue);
+        $hex = '#'.dechex($this->red).dechex($this->green).dechex($this->blue);
+
+        if ($this->alpha !== 1.0) {
+            return $hex . dechex(round($this->alpha * 255));
+        }
+
+        return $hex;
     }
 
     /**

@@ -28,3 +28,10 @@ test('it can be formatted as a hex', function () {
     ok($color->toHex() === '#819758', 'correctly formats hex');
     ok($color->toString(true) === '#819758', 'correctly formats hex from toString');
 });
+
+test('it can be formatted as an 8-digit hex', function () {
+    $color = Color::new(255, 255, 255, 0.5);
+
+    ok($color->toHex() === '#ffffff80', 'correctly formats hex with alpha');
+    ok($color->toString(true) === '#ffffff80', 'correctly formats hex with alpha from toString');
+});
