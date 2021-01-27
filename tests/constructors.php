@@ -37,6 +37,13 @@ test('it can be created using ::hex()', function () {
     ok($hex->toString() === '(129, 151, 88)', 'hex converted correctly.');
 });
 
+test('it can be created using ::hex() with alpha', function () {
+    $hex = Color::hex('#81975880');
+
+    ok($hex instanceof Color, 'instantiated correctly');
+    ok($hex->toString() === '(129, 151, 88, 0.5)', 'hex converted correctly.');
+});
+
 test('it can be created using abbreviated hex values', function () {
     $hex = Color::hex('#aaa');
 

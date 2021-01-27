@@ -71,7 +71,13 @@ class Color
             $hex = substr($hex, 1);
         }
 
-        if (strlen($hex) > 6) {
+        if (strlen($hex) === 8) {
+            $alpha = substr($hex, -2);
+
+            if ($alpha) {
+                $this->alpha = round(hexdec($alpha) / 255, 2);
+            }
+
             $hex = substr($hex, 0, 6);
         }
 
