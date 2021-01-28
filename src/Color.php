@@ -244,7 +244,7 @@ class Color
             $score = 'AAA';
         }
         
-        return (object) compact('ratio', 'score');
+        return (object) ['ratio' => $ratio, 'score' => $score];
     }
 
     /**
