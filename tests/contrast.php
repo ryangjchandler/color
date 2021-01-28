@@ -20,12 +20,3 @@ test('it can calculate the contrast ratio score for two colors', function () {
     ok($contrast->ratio === 13.69, 'correctly calculates the contrast ratio');
     ok($contrast->score === 'AAA', 'correctly scores the contrast ratio');
 });
-
-// test('it can contrast two colors', function () {
-//     $first = Color::hex('#aaa');
-//     $second = Color::hex('#aaa');
-//     $differentColor = Color::hex('#bbb');
-
-//     ok(Color::bothEqual($first, $second) === true, 'two colors can be compared');
-//     ok(Color::bothEqual($first, $differentColor) === false, 'different colors do not match');
-// });
