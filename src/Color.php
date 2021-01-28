@@ -188,6 +188,66 @@ class Color
     }
 
     /**
+     * Calculate the relative luminance of the color
+     *
+     * Using the formulas found in the WCAG Def:
+     * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+     *
+     * Updated sRGB threshold as per:
+     * https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color/17343790#comment99921012_17343790
+     * 
+     * @return float
+     */
+    public function relativeLuminance(): float
+    {
+        $values = array_combine(['r', 'b', 'g'], $this->toArray());
+
+        foreach ($values as $key => $value) {
+            $value = $value / 255;
+            
+            if($value <= 0.04045){
+                $values[$key] = $value / 12.92;
+                
+                continue;
+            }
+
+            $values[$key] = pow(($value + 0.055) / 1.055, 2.4);
+        }
+        
+        return 0.2126 * $values['r'] + 
+            0.7152 * $values['b'] + 
+            0.0722 * $values['g'];
+    }
+
+    /**
+     * Determine the contrast ratio score for the two colors.
+     *
+     * @param Color $first
+     * @param Color $second
+     * 
+     * @return object
+     */
+    public static function contrastScore(Color $first, Color $second): object
+    {
+        $luma1 = $first->relativeLuminance() + 0.05;
+        $luma2 = $second->relativeLuminance() + 0.05;
+        
+        $ratio = round(max($luma1, $luma2) / min($luma1, $luma2), 2);
+
+        if ($ratio < 2.9) {
+            $score = 'Fail';
+        } elseif ($ratio < 4.5) {
+            $score = 'AA Large';
+        } elseif ($ratio < 7) {
+            $score = 'AA';
+        } else {
+            $score = 'AAA';
+        }
+        
+        return (object) ['ratio' => $ratio, 'score' => $score];
+    }
+
+    /**
      * Get array representation of color.
      *
      * @return array
