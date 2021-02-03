@@ -42,7 +42,6 @@ class Color
     public float $alpha;
 
     /**
-    /**
      * Class constructor.
      *
      * @param int   $red   Integer between 0 and 255.
@@ -141,28 +140,34 @@ class Color
     /**
      * Set color via HSL value.
      *
+     * Reference for Colorspace Conversion Algorithm
+     * https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+     *
      * @param string $hex Hex value.
      *
      * @return Color
      */
     public function setHsl(int $h, int $s, int $l, float $alpha = 1.0): Color
     {
+        $h = $h/360;
+        $s = $s/100;
+        $l = $l/100;
+
+        // Check for monochrome
         if($s == 0){
-            $r = $g = $b = $l / 100 * 255;
+            $r = $g = $b = $l * 255;
         }else{
             $a = $l < 0.5 ? $l * (1 + $s) : $l + $s - ($l * $s);
             $b = (2 * $l) - $a;
             
-            $h = $h/360;
-
-            // $r = $this->hueToRgbValue($h + 1/3, $a, $b);
-            // $g = $this->hueToRgbValue($h, $a, $b);
-            $b = $this->hueToRgbValue($h - 1/3, $a, $b);
+            $r = $this->hueToRgbValue($h + 1/3, $a, $b) * 255;
+            $g = $this->hueToRgbValue($h, $a, $b) * 255;
+            $b = $this->hueToRgbValue($h - 1/3, $a, $b) * 255;
         }
 
-        $this->red   = $r;
-        $this->green = $g;
-        $this->blue  = $b;
+        $this->red   = round($r);
+        $this->green = round($g);
+        $this->blue  = round($b);
         $this->alpha = $alpha;
 
         return $this;
@@ -170,22 +175,25 @@ class Color
 
     protected function hueToRgbValue($h, $a, $b)
     {
-
-        // dd($h);
+        // Ensure $h is between 0 and 1
         if($h < 0){
             $h += 1;
+        }else if($h > 1){
+            $h -= 1;
         }
-        dd($h);
 
+        // Test for correct formula
         if(($h * 6) < 1){
-            return $b + ($a - $b);
+            return $b + ($a - $b) * 6 * $h;
         }
         if(($h * 2) < 1){
             return $a;
         }
         if(($h * 3) < 2){
-            return $b + ($a - $b);
+            return $b + ($a - $b) * (2/3 - $h) * 6;
         }
+
+        return $b;
     }
 
     /**
