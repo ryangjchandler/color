@@ -95,6 +95,100 @@ class Color
     }
 
     /**
+     * Converts an RGB color value to HSL. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+     * Assumes r, g, and b are contained in the set [0, 255] and
+     * returns h, s, and l in the set [0, 1].
+     *
+     * @param   Number  r       The red color value
+     * @param   Number  g       The green color value
+     * @param   Number  b       The blue color value
+     * @return  Array           The HSL representation
+     */
+    // function rgbToHsl(r, g, b){
+    //     r /= 255, g /= 255, b /= 255;
+    //     var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    //     var h, s, l = (max + min) / 2;
+
+    //     if(max == min){
+    //         h = s = 0; // achromatic
+    //     }else{
+    //         var d = max - min;
+    //         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    //         switch(max){
+    //             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+    //             case g: h = (b - r) / d + 2; break;
+    //             case b: h = (r - g) / d + 4; break;
+    //         }
+    //         h /= 6;
+    //     }
+
+    //     return [h, s, l];
+    // }
+
+    /**
+     * Converts an HSL color value to RGB. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+     * Assumes h, s, and l are contained in the set [0, 1] and
+     * returns r, g, and b in the set [0, 255].
+     *
+     * @param   Number  h       The hue
+     * @param   Number  s       The saturation
+     * @param   Number  l       The lightness
+     * @return  Array           The RGB representation
+     */
+    
+    /**
+     * Set color via HSL value.
+     *
+     * @param string $hex Hex value.
+     *
+     * @return Color
+     */
+    public function setHsl(int $h, int $s, int $l, float $alpha = 1.0): Color
+    {
+        if($s == 0){
+            $r = $g = $b = $l / 100 * 255;
+        }else{
+            $a = $l < 0.5 ? $l * (1 + $s) : $l + $s - ($l * $s);
+            $b = (2 * $l) - $a;
+            
+            $h = $h/360;
+
+            // $r = $this->hueToRgbValue($h + 1/3, $a, $b);
+            // $g = $this->hueToRgbValue($h, $a, $b);
+            $b = $this->hueToRgbValue($h - 1/3, $a, $b);
+        }
+
+        $this->red   = $r;
+        $this->green = $g;
+        $this->blue  = $b;
+        $this->alpha = $alpha;
+
+        return $this;
+    }
+
+    protected function hueToRgbValue($h, $a, $b)
+    {
+
+        // dd($h);
+        if($h < 0){
+            $h += 1;
+        }
+        dd($h);
+
+        if(($h * 6) < 1){
+            return $b + ($a - $b);
+        }
+        if(($h * 2) < 1){
+            return $a;
+        }
+        if(($h * 3) < 2){
+            return $b + ($a - $b);
+        }
+    }
+
+    /**
      * Get a random color.
      *
      * @return Color
@@ -116,6 +210,20 @@ class Color
     public static function hex(string $hex): Color
     {
         return (new static)->setHex($hex);
+    }
+
+    /**
+     * Create a new color via Hsl value.
+     *
+     * @param int $h Hue value.
+     * @param int $s Saturation value.
+     * @param int $l Luminance value.
+     * 
+     * @return Color
+     */
+    public static function hsl(int $h, int $s, int $l, float $alpha = 1.0): Color
+    {
+        return (new static)->setHsl($h, $s, $l, $alpha);
     }
 
     /**
