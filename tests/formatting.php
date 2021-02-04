@@ -35,3 +35,17 @@ test('it can be formatted as an 8-digit hex', function () {
     ok($color->toHex() === '#ffffff80', 'correctly formats hex with alpha');
     ok($color->toString(true) === '#ffffff80', 'correctly formats hex with alpha from toString');
 });
+
+test('it can be formatted as hsl', function () {
+    $hsl = Color::new(255, 255, 0)->toHsl();
+    $hslAlpha = Color::new(255, 255, 0, 0.5)->toHsl();
+
+    ok($hsl === [60, 100, 50], 'correctly formats hsl');
+    ok($hslAlpha === [60, 100, 50, 0.5], 'correctly formats hsl with alpha');
+
+    $hslMono = Color::new(255, 255, 255)->toHsl();
+    $hslMonoAlpha = Color::new(255, 255, 255, 0.5)->toHsl();
+
+    ok($hslMono === [0, 0, 100], 'correctly formats monochrome hsl');
+    ok($hslMonoAlpha === [0, 0, 100, 0.5], 'correctly formats monochrome hsl with alpha');
+});

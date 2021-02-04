@@ -50,3 +50,30 @@ test('it can be created using abbreviated hex values', function () {
     ok($hex instanceof Color, 'instantiated correctly');
     ok($hex->toString() === '(170, 170, 170)', 'hex converted correctly.');
 });
+
+test('it can be created using ::hsl()', function () {
+    $hsl = Color::hsl(60, 100, 50);
+    $hslMono = Color::hsl(0, 0, 50);
+
+    ok($hsl instanceof Color, 'instantiated correctly');
+    ok($hslMono instanceof Color, 'monochrome instantiated correctly');
+    ok($hsl->toString() === '(255, 255, 0)', 'color hsl converted correctly.');
+    ok($hslMono->toString() === '(128, 128, 128)', 'monochrome hsl converted correctly.');
+});
+
+test('it can be created using ::hsl() with alpha', function () {
+    $hsl = Color::hsl(60, 100, 50, 0.5);
+    $hslMono = Color::hsl(0, 0, 50, 0.5);
+
+    ok($hsl instanceof Color, 'instantiated correctly');
+    ok($hslMono instanceof Color, 'monochrome instantiated correctly');
+    ok($hsl->toString() === '(255, 255, 0, 0.5)', 'hex converted correctly.');
+    ok($hslMono->toString() === '(128, 128, 128, 0.5)', 'monochrome hsl converted correctly.');
+});
+
+test('it can limit HSLA values', function () {
+    $color = Color::hsl(400, 120, 120, 2.0);
+
+    ok($color->alpha === 1.0, 'colors alpha value limited to 1.0');
+    ok($color->toString() === '(255, 255, 255)', 'colors are limited to 255');
+});
