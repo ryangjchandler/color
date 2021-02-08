@@ -4,7 +4,7 @@ namespace RyanChandler\Color;
 
 /**
  * A simple Color object for PHP packages and applications.
- * 
+ *
  * @category RyanChandler\Color
  * @package  Color
  * @author   Ryan Chandler <support@ryangjchandler.co.uk>
@@ -15,28 +15,28 @@ class Color
 {
     /**
      * Colors red value.
-     * 
+     *
      * @var int Integer between 0 and 255.
      */
     public int $red;
 
     /**
      * Colors green value.
-     * 
+     *
      * @var int Integer between 0 and 255.
      */
     public int $green;
 
     /**
      * Colors blue value.
-     * 
+     *
      * @var int Integer between 0 and 255.
      */
     public int $blue;
 
     /**
      * Colors alpha value.
-     * 
+     *
      * @var float Float between 0.0 and 1.0.
      */
     public float $alpha;
@@ -66,7 +66,7 @@ class Color
      */
     public function setHex(string $hex): Color
     {
-        if ($hex[0] === '#') {  
+        if ($hex[0] === '#') {
             $hex = substr($hex, 1);
         }
 
@@ -86,9 +86,9 @@ class Color
             [$r, $g, $b] = str_split($hex, 2);
         }
 
-        $this->red   = hexdec($r);
+        $this->red = hexdec($r);
         $this->green = hexdec($g);
-        $this->blue  = hexdec($b);
+        $this->blue = hexdec($b);
 
         return $this;
     }
@@ -115,22 +115,22 @@ class Color
         $alpha = max(0, min(1.0, $alpha));
 
         // Check for monochrome
-        if($s == 0){
+        if ($s == 0) {
             $r = $g = $b = (int) round($l * 255);
-        }else{
+        } else {
             $a = $l < 0.5 ? $l * (1 + $s) : $l + $s - ($l * $s);
             $b = (2 * $l) - $a;
             
-            $r = $this->calcRgb($h + 1/3, $a, $b);
+            $r = $this->calcRgb($h + 1 / 3, $a, $b);
             $g = $this->calcRgb($h, $a, $b);
-            $b = $this->calcRgb($h - 1/3, $a, $b);
+            $b = $this->calcRgb($h - 1 / 3, $a, $b);
         }
 
-        $this->red   = $r;
+        $this->red = $r;
         $this->green = $g;
-        $this->blue  = $b;
+        $this->blue = $b;
 
-        if($alpha !== 1.0){
+        if ($alpha !== 1.0) {
             $this->alpha = $alpha;
         }
 
@@ -139,33 +139,30 @@ class Color
 
     /**
      * Calculate an RGB color value from HSL algorithm partials
-     * 
+     *
      * @param  float $h
      * @param  float $a
      * @param  float $b
-     * 
+     *
      * @return int
      */
     protected function calcRgb(float $h, float $a, float $b): int
     {
         // Ensure $h is between 0 and 1
-        if($h < 0){
+        if ($h < 0) {
             $h += 1;
-        }else if($h > 1){
+        } elseif ($h > 1) {
             $h -= 1;
         }
 
         // Test for correct formula
-        if(($h * 6) < 1){
+        if (($h * 6) < 1) {
             $value = $b + ($a - $b) * 6 * $h;
-        
-        }elseif(($h * 2) < 1){
+        } elseif (($h * 2) < 1) {
             $value = $a;
-        
-        }elseif(($h * 3) < 2){
-            $value = $b + ($a - $b) * (2/3 - $h) * 6;
-        
-        }else{
+        } elseif (($h * 3) < 2) {
+            $value = $b + ($a - $b) * (2 / 3 - $h) * 6;
+        } else {
             $value = $b;
         }
 
@@ -188,7 +185,7 @@ class Color
      * Create a new color via Hex value.
      *
      * @param string $hex Hex value.
-     * 
+     *
      * @return Color
      */
     public static function hex(string $hex): Color
@@ -203,7 +200,7 @@ class Color
      * @param int   $s     Integer between 0 and 100.
      * @param int   $l     Integer between 0 and 100.
      * @param float $alpha Float between 0 and 1.0.
-     * 
+     *
      * @return Color
      */
     public static function hsl(int $h, int $s, int $l, float $alpha = 1.0): Color
@@ -218,7 +215,7 @@ class Color
      * @param int   $green Integer between 0 and 255.
      * @param int   $blue  Integer between 0 and 255.
      * @param float $alpha Float between 0 and 1.0.
-     * 
+     *
      * @return Color
      */
     public static function new(int $red = 0, int $green = 0, int $blue = 0, float $alpha = 1.0): Color
@@ -230,7 +227,7 @@ class Color
      * Get distance between self and another color.
      *
      * @param Color $end Color to end at.
-     * 
+     *
      * @return int
      */
     public function distanceTo(Color $end): int
@@ -243,14 +240,14 @@ class Color
      *
      * @param Color $start Color to start at.
      * @param Color $end   Color to end at.
-     * 
+     *
      * @return int
      */
     public static function distanceBetween(Color $start, Color $end): int
     {
         return pow($start->alpha - $end->alpha, 2) +
             pow($start->red - $end->red, 2) +
-            pow($start->green - $end->green, 2) + 
+            pow($start->green - $end->green, 2) +
             pow($start->blue - $end->blue, 2);
     }
 
@@ -288,7 +285,7 @@ class Color
      *
      * Updated sRGB threshold as per:
      * https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color/17343790#comment99921012_17343790
-     * 
+     *
      * @return float
      */
     public function relativeLuminance(): float
@@ -298,7 +295,7 @@ class Color
         foreach ($values as $key => $value) {
             $value = $value / 255;
             
-            if($value <= 0.04045){
+            if ($value <= 0.04045) {
                 $values[$key] = $value / 12.92;
                 
                 continue;
@@ -307,8 +304,8 @@ class Color
             $values[$key] = pow(($value + 0.055) / 1.055, 2.4);
         }
         
-        return 0.2126 * $values['r'] + 
-            0.7152 * $values['b'] + 
+        return 0.2126 * $values['r'] +
+            0.7152 * $values['b'] +
             0.0722 * $values['g'];
     }
 
@@ -317,7 +314,7 @@ class Color
      *
      * @param Color $first
      * @param Color $second
-     * 
+     *
      * @return object
      */
     public static function contrastScore(Color $first, Color $second): object
@@ -353,7 +350,7 @@ class Color
     /**
      * Get string representation of color.
      *
-     * @param boolean $hex Get as Hex value (optional).
+     * @param bool $hex Get as Hex value (optional).
      *
      * @return string
      */
@@ -400,30 +397,30 @@ class Color
         $l = ($min + $max) / 2;
         
         // Check for monochrome
-        if($min == $max){
+        if ($min == $max) {
             // Monochrome
             $h = 0;
             $s = 0;
             $l = $l * 100;
-        }else{
+        } else {
             // Saturation
             $s = $l > 0.5? ($max - $min) / (2 - $max - $min) : ($max - $min) / ($max + $min);
 
             // Hue
-            if($r == $max){
+            if ($r == $max) {
                 $h = ($g - $b) / ($max - $min);
             }
-            if($g == $max){
+            if ($g == $max) {
                 $h = 2 + ($b - $r) / ($max - $min);
             }
-            if($b == $max){
+            if ($b == $max) {
                 $h = 4 + ($r - $g) / ($max - $min);
             }
 
             // Convert to degrees/percent
             $h = $h * 60;
 
-            if($h < 0){
+            if ($h < 0) {
                 $h += 360;
             }
 
@@ -434,7 +431,7 @@ class Color
         // Return with alpha if set
         $values = [(int) round($h), (int) round($s), (int) round($l)];
 
-        if($this->alpha !== 1.0){
+        if ($this->alpha !== 1.0) {
             $values[] = $this->alpha;
         }
 

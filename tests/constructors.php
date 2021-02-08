@@ -1,9 +1,9 @@
 <?php
 
-use RyanChandler\Color\Color;
-
 use function Puny\ok;
+
 use function Puny\test;
+use RyanChandler\Color\Color;
 
 test('it can be created', function () {
     $color = new Color(255, 254, 253);

@@ -1,9 +1,9 @@
 <?php
 
-use RyanChandler\Color\Color;
-
 use function Puny\ok;
+
 use function Puny\test;
+use RyanChandler\Color\Color;
 
 test('it can calculate the distance betweeen 2 colors', function () {
     $one = Color::new(0, 0, 220);
