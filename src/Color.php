@@ -42,7 +42,6 @@ class Color
     public float $alpha;
 
     /**
-    /**
      * Class constructor.
      *
      * @param int   $red   Integer between 0 and 255.
@@ -93,6 +92,85 @@ class Color
 
         return $this;
     }
+    
+    /**
+     * Set color via HSL value.
+     *
+     * Reference for Colorspace Conversion Algorithm
+     * https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+     *
+     * @param int   $h     Integer between 0 and 360.
+     * @param int   $s     Integer between 0 and 100.
+     * @param int   $l     Integer between 0 and 100.
+     * @param float $alpha Float between 0 and 1.0.
+     *
+     * @return Color
+     */
+    public function setHsl(int $h, int $s, int $l, float $alpha = 1.0): Color
+    {
+        // Limit HSLA values and convert to fractions
+        $h = max(0, min(360, $h)) / 360;
+        $s = max(0, min(100, $s)) / 100;
+        $l = max(0, min(100, $l)) / 100;
+        $alpha = max(0, min(1.0, $alpha));
+
+        // Check for monochrome
+        if($s == 0){
+            $r = $g = $b = (int) round($l * 255);
+        }else{
+            $a = $l < 0.5 ? $l * (1 + $s) : $l + $s - ($l * $s);
+            $b = (2 * $l) - $a;
+            
+            $r = $this->calcRgb($h + 1/3, $a, $b);
+            $g = $this->calcRgb($h, $a, $b);
+            $b = $this->calcRgb($h - 1/3, $a, $b);
+        }
+
+        $this->red   = $r;
+        $this->green = $g;
+        $this->blue  = $b;
+
+        if($alpha !== 1.0){
+            $this->alpha = $alpha;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Calculate an RGB color value from HSL algorithm partials
+     * 
+     * @param  float $h
+     * @param  float $a
+     * @param  float $b
+     * 
+     * @return int
+     */
+    protected function calcRgb(float $h, float $a, float $b): int
+    {
+        // Ensure $h is between 0 and 1
+        if($h < 0){
+            $h += 1;
+        }else if($h > 1){
+            $h -= 1;
+        }
+
+        // Test for correct formula
+        if(($h * 6) < 1){
+            $value = $b + ($a - $b) * 6 * $h;
+        
+        }elseif(($h * 2) < 1){
+            $value = $a;
+        
+        }elseif(($h * 3) < 2){
+            $value = $b + ($a - $b) * (2/3 - $h) * 6;
+        
+        }else{
+            $value = $b;
+        }
+
+        return (int) round($value * 255);
+    }
 
     /**
      * Get a random color.
@@ -116,6 +194,21 @@ class Color
     public static function hex(string $hex): Color
     {
         return (new static)->setHex($hex);
+    }
+
+    /**
+     * Create a new color via HSL value.
+     *
+     * @param int   $h     Integer between 0 and 360.
+     * @param int   $s     Integer between 0 and 100.
+     * @param int   $l     Integer between 0 and 100.
+     * @param float $alpha Float between 0 and 1.0.
+     * 
+     * @return Color
+     */
+    public static function hsl(int $h, int $s, int $l, float $alpha = 1.0): Color
+    {
+        return (new static)->setHsl($h, $s, $l, $alpha);
     }
 
     /**
@@ -287,6 +380,65 @@ class Color
         }
 
         return $hex;
+    }
+
+    /**
+     * Get array representation of color as HSL values.
+     *
+     * @return array
+     */
+    public function toHsl(): array
+    {
+        $r = $this->red / 255;
+        $g = $this->green / 255;
+        $b = $this->blue / 255;
+
+        $min = min($r, $g, $b);
+        $max = max($r, $g, $b);
+
+        // Lightness
+        $l = ($min + $max) / 2;
+        
+        // Check for monochrome
+        if($min == $max){
+            // Monochrome
+            $h = 0;
+            $s = 0;
+            $l = $l * 100;
+        }else{
+            // Saturation
+            $s = $l > 0.5? ($max - $min) / (2 - $max - $min) : ($max - $min) / ($max + $min);
+
+            // Hue
+            if($r == $max){
+                $h = ($g - $b) / ($max - $min);
+            }
+            if($g == $max){
+                $h = 2 + ($b - $r) / ($max - $min);
+            }
+            if($b == $max){
+                $h = 4 + ($r - $g) / ($max - $min);
+            }
+
+            // Convert to degrees/percent
+            $h = $h * 60;
+
+            if($h < 0){
+                $h += 360;
+            }
+
+            $s *= 100;
+            $l *= 100;
+        }
+
+        // Return with alpha if set
+        $values = [(int) round($h), (int) round($s), (int) round($l)];
+
+        if($this->alpha !== 1.0){
+            $values[] = $this->alpha;
+        }
+
+        return $values;
     }
 
     /**

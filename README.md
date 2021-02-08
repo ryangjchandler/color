@@ -46,6 +46,20 @@ The `#` is not compulsory. It will only be removed _if_ the string provided star
 
 > It's worth noting that any alpha values specified on the hex value will be stripped since the string is clamped to a length of 6. This is something that might be supported in a future version.
 
+
+### Creating a color from HSL values
+
+You can also use hue, saturation and lightness values to create a color using the `Color::hsl()` method.
+
+```php
+$color = Color::hsl(0, 0, 100);
+```
+
+This will convert your HSL values into the RGB equivalent.
+
+> You can also define the alpha as an optional fourth argument `Color::hsl(0, 0, 100, 0.5)`
+
+
 ### Generating a random color
 
 You can generate a random color using the `Color::random()` method.
@@ -72,6 +86,14 @@ If you wish to get the hex equivalent of your color, you can use the `Color::toH
 
 ```php
 Color::new(255, 255, 255)->toHex(); // #ffffff
+```
+
+### Getting the HSL representation
+
+If you wish to get the HSL equivalent of your color as an array, you can use the `Color::toHsl()` method.
+
+```php
+[$h, $s, $l] = Color::new(255, 255, 255)->toHsl(); // [0, 0, 100]
 ```
 
 ### Getting the string representation
