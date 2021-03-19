@@ -264,6 +264,17 @@ class Color
             && $this->blue === $color->blue
             && $this->alpha === $color->alpha;
     }
+    
+    /**
+     * Determine whether this color is identical to another.
+     *
+     * @param Color $color
+     * @return bool
+     */
+    public function is(Color $color): bool
+    {
+        return $this->equals($color);
+    }
 
     /**
      * Determine whether two colors are identical.
